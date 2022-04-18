@@ -10,6 +10,10 @@ public class Grafo {
 
 
 
+    public void add(){
+
+    }
+
     public void imprimir(){
 
     }
