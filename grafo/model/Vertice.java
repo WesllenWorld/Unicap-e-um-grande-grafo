@@ -1,8 +1,11 @@
 package model;
 
+import java.util.LinkedList;
+
 public class Vertice {
     private int id;
     private String nome;
+
 
     public Vertice(int id, String nome) {
         this.id = id;

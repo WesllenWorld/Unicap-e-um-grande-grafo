@@ -1,18 +1,26 @@
 package model;
 
 import java.util.ArrayList;
+import arquivos.MontagemDoGrafo;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Grafo {
-    List[] vetor = new List[7];
-    List lista = new ArrayList<Vertice>();
+    private ArrayList<ArrayList<Vertice>> adj = new ArrayList<ArrayList<Vertice>>();
+    MontagemDoGrafo montagemDoGrafo = new MontagemDoGrafo();
 
 
 
 
-    public void add(){
+    public void setup(){
+        montagemDoGrafo.montarVertices();
+        montagemDoGrafo.montarArestas();
+
+
 
     }
+
+
 
     public void imprimir(){
 
