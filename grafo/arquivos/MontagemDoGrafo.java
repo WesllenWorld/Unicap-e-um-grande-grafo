@@ -61,6 +61,8 @@ public class MontagemDoGrafo {
 
     }
 
+    public void adjacencia(ArrayList<Vertice> lV, ArrayList<Aresta> lA, ArrayList<ArrayList<Vertice>> adj){
 
+    }
 
 }
