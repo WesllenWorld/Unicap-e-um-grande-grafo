@@ -62,7 +62,28 @@ public class MontagemDoGrafo {
     }
 
     public void adjacencia(ArrayList<Vertice> lV, ArrayList<Aresta> lA, ArrayList<ArrayList<Vertice>> adj){
+        for(int i = 0; i < lV.size(); i++){
+            ArrayList<Vertice> adjVertice = new ArrayList<>();
+            for(int j = 0; j<lA.size();j++){
+                //SE -> o id está em um destino E não está na lista de adjacência atual = adiciona o vértice da origem OU
+                // id está na origem de vertice E não está na lista de adjacência atual = adiciona o vértice do destino
+
+                if(lV.get(i).getId() == lA.get(j).getIdVerticeOrigem() && !adjVertice.contains(lV.get(i).getId())){
+                    adjVertice.add(lV.get(lA.get(j).getIdVerticeDestino()-1));
+                }
+                if(lV.get(i).getId() == lA.get(j).getIdVerticeDestino() && !adjVertice.contains(lV.get(i).getId())){
+                    adjVertice.add(lV.get(lA.get(j).getIdVerticeOrigem()-1));
+                }
+
+            }
+            adj.add(i, adjVertice);
+        }
+
+
+
 
     }
+
+
 
 }

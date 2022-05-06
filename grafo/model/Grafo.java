@@ -27,9 +27,20 @@ public class Grafo {
         }
         montagemDoGrafo.adjacencia(listaVertice, listaAresta, adj);
 
+        imprimirAdj();
     }
 
     public void imprimir(){
+
+    }
+
+    public void imprimirAdj(){
+        for(int i= 0; i<adj.size();i++){
+            for(int j = 0; j<adj.get(i).size();j++){
+                System.out.println("Vertice "+(i+1)+" é vizinho de: "+ adj.get(i).get(j).getNome());
+            }
+        }
+
 
     }
 
