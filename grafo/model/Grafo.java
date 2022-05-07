@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 import arquivos.MontagemDoGrafo;
 
@@ -36,16 +34,27 @@ public class Grafo {
 
     public void imprimirAdj(){
         for(int i= 0; i<adj.size();i++){
+            if(adj.get(i).size() == 0){
+                System.out.println(listaVertice.get(i).getNome() + " não tem vizinhos.");
+            }
             for(int j = 0; j<adj.get(i).size();j++){
-                System.out.println("Vertice "+(i+1)+" é vizinho de: "+ adj.get(i).get(j).getNome());
+                System.out.println("Vertice "+listaVertice.get(i).getNome()+" é vizinho de: "+ adj.get(i).get(j).getNome());
             }
         }
 
 
     }
 
-    public void buscaExtensao(){
+    public void buscaExtensao(int p, int c){
+        Vertice vP = new Vertice(p, "");
+        Vertice vC = new Vertice(c, "");
+        Queue<Vertice> filaExtensao = new LinkedList<>();
+        int distancia;
 
+        //reset das cores dos nós
+        for (Vertice vertice : listaVertice) {
+            vertice.setCor("Branco");
+        }
     }
 
     public void buscaDijkstra(){
@@ -62,7 +71,7 @@ public class Grafo {
 
     public void grafoMenu(){
         boolean menu = true;
-        int op;
+        int op, partida, chegada;
         Scanner in = new Scanner(System.in);
 
         while(menu) {
@@ -75,7 +84,12 @@ public class Grafo {
                 }
                 switch(op){
                     case 1:
-                        System.out.println("A");
+                        System.out.println("ID DO VÉRTICE DE PARTIDA:");
+                        partida = in.nextInt();
+                        System.out.println("ID DO VÉRTICE DE CHEGADA:");
+                        chegada = in.nextInt();
+                        buscaExtensao(partida, chegada);
+
                         break;
                     case 2:
                         System.out.println("B");

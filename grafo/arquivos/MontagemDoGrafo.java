@@ -4,6 +4,7 @@ import model.Vertice;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class MontagemDoGrafo {
@@ -78,6 +79,9 @@ public class MontagemDoGrafo {
             }
             adj.add(i, adjVertice);
         }
-
+        //ordenação dos adjacentes na lista, baseada no id do vértice
+        for(int i = 0; i<adj.size();i++) {
+            adj.get(i).sort(Comparator.comparing(Vertice::getId));
+        }
     }
 }
