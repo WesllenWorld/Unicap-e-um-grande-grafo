@@ -1,17 +1,26 @@
 package model;
 
-import java.util.LinkedList;
-
 public class Vertice {
     private int id;
     private String nome;
     private String cor;
+    private int extensaoDistancia;
+    private Vertice antecessor;
+    private Vertice sucessor;
 
+    public Vertice getSucessor() {
+        return sucessor;
+    }
+
+    public void setSucessor(Vertice sucessor) {
+        this.sucessor = sucessor;
+    }
 
     public Vertice(int id, String nome) {
         this.id = id;
         this.nome = nome;
-        this.cor = "branco";
+        this.cor = "Branco";
+        this.extensaoDistancia = 0;
     }
 
     public int getId() {
@@ -36,5 +45,21 @@ public class Vertice {
 
     public void setCor(String cor) {
         this.cor = cor;
+    }
+
+    public int getExtensaoDistancia() {
+        return extensaoDistancia;
+    }
+
+    public void setExtensaoDistancia(int extensaoDistancia) {
+        this.extensaoDistancia = extensaoDistancia;
+    }
+
+    public Vertice getAntecessor() {
+        return antecessor;
+    }
+
+    public void setAntecessor(Vertice antecessor) {
+        this.antecessor = antecessor;
     }
 }

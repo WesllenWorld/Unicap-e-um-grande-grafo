@@ -45,15 +45,66 @@ public class Grafo {
 
     }
 
-    public void buscaExtensao(int p, int c){
-        Vertice vP = new Vertice(p, "");
-        Vertice vC = new Vertice(c, "");
+    public void buscaExtensao(int pId, int cId){
+        Vertice verticePartida = listaVertice.get(pId-1);
+        Vertice verticeChegada = listaVertice.get(cId-1);
+        Vertice verticeAtual;
         Queue<Vertice> filaExtensao = new LinkedList<>();
-        int distancia;
+        Vertice verticePrint = verticePartida;
 
         //reset das cores dos nós
-        for (Vertice vertice : listaVertice) {
+        for (int i = 0; i < listaVertice.size(); i++) {
+            Vertice vertice = listaVertice.get(i);
             vertice.setCor("Branco");
+            vertice.setExtensaoDistancia(0);
+            vertice.setAntecessor(null);
+            verticeChegada.setSucessor(null);
+        }
+
+
+        verticePartida.setCor("Cinza");
+        filaExtensao.add(verticePartida);
+        while(!filaExtensao.isEmpty()){
+            verticeAtual = filaExtensao.poll();
+            //for(int i = 0; i<adj.get(verticeAtual.getId()).size();i++){
+            //for(int i = 0; i<adj.size();i++){
+                for(int j = 0; j<adj.get(verticeAtual.getId()-1).size();j++){
+                    Vertice verticeAdjacente = adj.get(verticeAtual.getId()-1).get(j);
+                   /*
+                    if(verticeAdjacente == verticeChegada){
+                        System.out.println("Vértice "+ verticeChegada.getNome() + " foi encontrado!");
+                        System.out.println("Distância percorrida: "+verticeAdjacente.getExtensaoDistancia());
+                        System.out.println("Sequência de vértices: ");
+                        System.out.println(verticePartida.getNome());
+                        while(verticePartida.getSucessor()!= null) {
+                            System.out.printf(verticeAtual.getSucessor().getNome()+" ");
+                        }
+                        System.out.println(verticeChegada.getNome());
+                    }
+                    */
+                    if(verticeAdjacente.getCor().equals("Branco")){
+                        verticeAdjacente.setCor("Cinza");
+                        verticeAdjacente.setExtensaoDistancia(verticeAtual.getExtensaoDistancia()+1);
+                       // verticeAdjacente.setAntecessor(verticeAtual.getAntecessor());
+                        verticeAtual.setSucessor(verticeAdjacente);
+                        filaExtensao.add(verticeAdjacente);
+                    }
+                    verticeAtual.setCor("Preto");
+               // }
+
+                    if(verticeAtual==verticeChegada){
+                        System.out.println("Vértice "+ verticeChegada.getNome() + " foi encontrado!");
+                        System.out.println("Distância percorrida: "+verticeAtual.getExtensaoDistancia());
+                        System.out.println("Sequência de vértices: ");
+                        System.out.printf(verticePartida.getNome()+" ");
+                        while(verticePrint.getSucessor()!= null) {
+                            System.out.printf(verticePrint.getSucessor().getNome()+" ");
+                            verticePrint = verticePrint.getSucessor();
+                        }
+                       // System.out.println(verticeChegada.getNome());
+                        return;
+                    }
+            }
         }
     }
 
@@ -63,7 +114,7 @@ public class Grafo {
 
     public void menuOpcoes(){
         System.out.println("Selecione: ");
-        System.out.println("1 - Busca no grafo, utilizando o caminho mínimo.");
+        System.out.println("1 - Busca no grafo, utilizando busca em extensão.");
         System.out.println("2 - Busca no grafo, utilizando o algoritmo de Dijkstra (grafo com pesos).");
         System.out.println("3 - Impressão do grafo.");
         System.out.println("0 - Sair, pois não quero mais brincar com o grafo.");
@@ -110,5 +161,14 @@ public class Grafo {
 
         }
 
+    }
+
+    public Vertice acharVertice(int id){
+        for(int i = 0;i<listaVertice.size();i++){
+            if(listaVertice.get(i).getId() == id){
+                return listaVertice.get(i);
+            }
+        }
+        return null;
     }
 }
