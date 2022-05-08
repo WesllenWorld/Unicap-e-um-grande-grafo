@@ -6,21 +6,13 @@ public class Vertice {
     private String cor;
     private int extensaoDistancia;
     private Vertice antecessor;
-    private Vertice sucessor;
 
-    public Vertice getSucessor() {
-        return sucessor;
-    }
 
-    public void setSucessor(Vertice sucessor) {
-        this.sucessor = sucessor;
-    }
 
     public Vertice(int id, String nome) {
         this.id = id;
         this.nome = nome;
         this.cor = "Branco";
-        this.extensaoDistancia = 0;
     }
 
     public int getId() {

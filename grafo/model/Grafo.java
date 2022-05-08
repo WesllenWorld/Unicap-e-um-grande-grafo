@@ -23,40 +23,51 @@ public class Grafo {
         }
         montagemDoGrafo.adjacencia(listaVertice, listaAresta, adj);
 
-        imprimirAdj();
-    }
-
-    public void imprimir() {
 
     }
 
-    public void imprimirAdj() {
+    private double acharPeso(int um, int dois) {
+
+        for(int i = 0; i<listaAresta.size();i++){
+            if((listaAresta.get(i).getIdVerticeOrigem() == um && listaAresta.get(i).getIdVerticeDestino() == dois) ||
+                    (listaAresta.get(i).getIdVerticeOrigem() == dois && listaAresta.get(i).getIdVerticeDestino() == um)){
+                return listaAresta.get(i).getPeso();
+            }
+        }
+        return 0;
+    }
+
+    private void imprimirAdj() {
         for (int i = 0; i < adj.size(); i++) {
             if (adj.get(i).size() == 0) {
                 System.out.println(listaVertice.get(i).getNome() + " não tem vizinhos.");
             }
-            for (int j = 0; j < adj.get(i).size(); j++) {
-                System.out.println("Vertice " + listaVertice.get(i).getNome() + " é vizinho de: " + adj.get(i).get(j).getNome());
+            else {
+                for (int j = 0; j < adj.get(i).size(); j++) {
+                    double p = acharPeso(listaVertice.get(i).getId(), adj.get(i).get(j).getId());
+                    System.out.println("Vertice " + listaVertice.get(i).getNome() + " é vizinho de: " + adj.get(i).get(j).getNome());
+                    System.out.println("Distância = " + p);
+                }
             }
+            System.out.println();
         }
 
 
     }
 
-    public void buscaExtensao(int pId, int cId) {
+    private void buscaExtensao(int pId, int cId) {
         Vertice verticePartida = listaVertice.get(pId - 1);
         Vertice verticeChegada = listaVertice.get(cId - 1);
         Vertice verticeAtual;
         Queue<Vertice> filaExtensao = new LinkedList<>();
-        Vertice verticePrint = verticePartida;
         Stack<Vertice> printCaminho = new Stack<>();
-        //reset das cores dos nós
+
+        //reset para a nova busca
         for (int i = 0; i < listaVertice.size(); i++) {
             Vertice vertice = listaVertice.get(i);
             vertice.setCor("Branco");
             vertice.setExtensaoDistancia(Integer.MAX_VALUE);
             vertice.setAntecessor(null);
-            verticeChegada.setSucessor(null);
         }
 
 
@@ -65,23 +76,22 @@ public class Grafo {
         filaExtensao.add(verticePartida);
         while (!filaExtensao.isEmpty()) {
             verticeAtual = filaExtensao.poll();
-            if (verticeAtual == verticeChegada) {
+            if (verticeAtual == verticeChegada) {//SE o vertice de chegada foi encontrado
                 System.out.println("ACHOU");
                 System.out.println("Distância total: " + verticeAtual.getExtensaoDistancia());
                 System.out.println("Caminho => \n");
                 while (verticeChegada.getAntecessor() != null) {
-                    printCaminho.push(verticeChegada);
+                    printCaminho.push(verticeChegada); //Joga na pilha. No momento de desenpilhar, os vertices serao printados em ordem de movimentacao ate o destino
                     verticeChegada = verticeChegada.getAntecessor();
                 }
-                printCaminho.push(verticePartida);
+                printCaminho.push(verticePartida); //Adicao do vertice de partida
                 for (int i = 0; i < verticeAtual.getExtensaoDistancia() + 1; i++) {
                     Vertice print = printCaminho.pop();
-                    System.out.println(print.getId() + "/" + print.getNome() + " => ");
+                    System.out.println(print.getId() + "/" + print.getNome() + " => \n");
                 }
-                System.out.println();
+                return;
             }
-            //for(int i = 0; i<adj.get(verticeAtual.getId()).size();i++){
-            //for(int i = 0; i<adj.size();i++){
+
             for (Vertice v : adj.get(verticeAtual.getId() - 1)) {
                 if (v.getCor().equals("Branco")) {
                     v.setCor("Cinza");
@@ -91,7 +101,6 @@ public class Grafo {
                 }
             }
             verticeAtual.setCor("Preto");
-
         }
     }
 
@@ -99,7 +108,7 @@ public class Grafo {
 
     }
 
-    public void menuOpcoes() {
+    private void menuOpcoes() {
         System.out.println("Selecione: ");
         System.out.println("1 - Busca no grafo, utilizando busca em extensão.");
         System.out.println("2 - Busca no grafo, utilizando o algoritmo de Dijkstra (grafo com pesos).");
@@ -126,14 +135,22 @@ public class Grafo {
                         partida = in.nextInt();
                         System.out.println("ID DO VÉRTICE DE CHEGADA:");
                         chegada = in.nextInt();
-                        buscaExtensao(partida, chegada);
 
+                        System.out.println();
+                        buscaExtensao(partida, chegada);
                         break;
                     case 2:
-                        System.out.println("B");
+                        System.out.println("ID DO VÉRTICE DE PARTIDA:");
+                        partida = in.nextInt();
+                        System.out.println("ID DO VÉRTICE DE CHEGADA:");
+                        chegada = in.nextInt();
+
+                        System.out.println();
+                        buscaExtensao(partida, chegada);
                         break;
                     case 3:
-                        System.out.println("C");
+                        System.out.println();
+                        imprimirAdj();
                         break;
                     case 0:
                         System.out.println("E isso é tudo, pessoal!");
@@ -152,12 +169,4 @@ public class Grafo {
 
     }
 
-    public Vertice acharVertice(int id) {
-        for (int i = 0; i < listaVertice.size(); i++) {
-            if (listaVertice.get(i).getId() == id) {
-                return listaVertice.get(i);
-            }
-        }
-        return null;
-    }
 }
