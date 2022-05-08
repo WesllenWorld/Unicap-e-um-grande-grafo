@@ -7,8 +7,6 @@ public class Vertice {
     private int extensaoDistancia;
     private Vertice antecessor;
 
-
-
     public Vertice(int id, String nome) {
         this.id = id;
         this.nome = nome;

@@ -26,7 +26,7 @@ public class Grafo {
 
     }
 
-    private double acharPeso(int um, int dois) {
+    private double acharPeso(int um, int dois) {//Func que retorna o peso da aresta entre os nos
 
         for(int i = 0; i<listaAresta.size();i++){
             if((listaAresta.get(i).getIdVerticeOrigem() == um && listaAresta.get(i).getIdVerticeDestino() == dois) ||
@@ -104,11 +104,67 @@ public class Grafo {
         }
     }
 
-    public void buscaDijkstra() {
+    public void buscaDijkstra(int pId, int cId) {
+        Vertice verticePartida = listaVertice.get(pId - 1);
+        Vertice verticeChegada = listaVertice.get(cId - 1);
+        Vertice verticeAtual;
+        Set<Vertice> visitados = new HashSet<>();
+        Stack<Vertice> printCaminho = new Stack<>();
 
+        Queue<Vertice> filaDijkstra = new LinkedList<>();
+        double[] menorDistanciaPartida = new double[listaVertice.size()];
+
+
+        //Mantendo todos os antecessores = null e criando o arraylist de
+        for (int i = 0; i < listaVertice.size(); i++) {
+            Vertice vertice = listaVertice.get(i);
+            vertice.setAntecessor(null);
+            menorDistanciaPartida[i] = Double.MAX_VALUE;
+        }
+
+        menorDistanciaPartida[verticePartida.getId()-1] = 0.0;
+        filaDijkstra.add(verticePartida);
+
+        while(!filaDijkstra.isEmpty()){
+
+            Vertice u = filaDijkstra.poll();
+            visitados.add(u);
+            double distanciaAtual, distanciaNova;
+
+            for(int i = 0; i < adj.get(u.getId()-1).size(); i++){
+                verticeAtual = adj.get(u.getId()-1).get(i);
+
+                if(!visitados.contains(verticeAtual)){
+                    distanciaAtual = acharPeso(u.getId(), verticeAtual.getId());
+                    distanciaNova = menorDistanciaPartida[u.getId()-1] + distanciaAtual;
+                    if(distanciaNova < menorDistanciaPartida[verticeAtual.getId()-1]){
+                        menorDistanciaPartida[verticeAtual.getId()-1] = distanciaNova;
+                    }
+                    filaDijkstra.add(verticeAtual);
+                    verticeAtual.setAntecessor(u);
+                }
+
+                if(verticeAtual == verticeChegada){
+                    System.out.println("ACHOU");
+                    System.out.println("DISTANCIA TOTAL: "+ menorDistanciaPartida[verticeAtual.getId()-1]);
+                    System.out.println("Caminho => \n");
+                    do{
+                        printCaminho.push(verticeAtual);//Joga na pilha. No momento de desenpilhar, os vertices serao printados em ordem de movimentacao ate o destino
+                        verticeAtual = verticeAtual.getAntecessor();
+
+                    }while (verticeAtual != null);
+                    while(!printCaminho.isEmpty()) {
+                        Vertice print = printCaminho.pop();
+                        System.out.println(print.getId()+"/"+print.getNome() + " => \n");
+                    }
+                    return;
+                }
+
+            }
+        }
     }
 
-    private void menuOpcoes() {
+    private void menuOpcoes() {//Prints do menu
         System.out.println("Selecione: ");
         System.out.println("1 - Busca no grafo, utilizando busca em extensão.");
         System.out.println("2 - Busca no grafo, utilizando o algoritmo de Dijkstra (grafo com pesos).");
@@ -116,7 +172,7 @@ public class Grafo {
         System.out.println("0 - Sair, pois não quero mais brincar com o grafo.");
     }
 
-    public void grafoMenu() {
+    public void grafoMenu() {//Menu de selecao
         boolean menu = true;
         int op, partida, chegada;
         Scanner in = new Scanner(System.in);
@@ -146,7 +202,7 @@ public class Grafo {
                         chegada = in.nextInt();
 
                         System.out.println();
-                        buscaExtensao(partida, chegada);
+                        buscaDijkstra(partida, chegada);
                         break;
                     case 3:
                         System.out.println();
@@ -164,9 +220,6 @@ public class Grafo {
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Meu caro, você está inserindo números que não correspondem a nenhum nó. Por obséquio, insira números válidos.\n");
             }
-
         }
-
     }
-
 }
