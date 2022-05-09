@@ -44,7 +44,7 @@ public class MontagemDoGrafo {
             sc.nextLine();
 
             while (sc.hasNext()) {
-                String[] aresta = sc.nextLine().split(",");
+                String[] aresta = sc.nextLine().split(", ");
                 id = Integer.parseInt(aresta[0]);
                 origem = Integer.parseInt(aresta[1]);
                 destino = Integer.parseInt(aresta[2]);

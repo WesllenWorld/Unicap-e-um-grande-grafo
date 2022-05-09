@@ -4,6 +4,13 @@ public class Aresta {
     private double peso;
     private int id, idVerticeOrigem, idVerticeDestino;
 
+    public Aresta(int id, int idVerticeOrigem, int idVerticeDestino, double peso) {
+        this.peso = peso;
+        this.id = id;
+        this.idVerticeOrigem = idVerticeOrigem;
+        this.idVerticeDestino = idVerticeDestino;
+    }
+
     public double getPeso() {
         return peso;
     }
@@ -36,10 +43,4 @@ public class Aresta {
         this.idVerticeDestino = idVerticeDestino;
     }
 
-    public Aresta(int id, int idVerticeOrigem, int idVerticeDestino, double peso) {
-        this.peso = peso;
-        this.id = id;
-        this.idVerticeOrigem = idVerticeOrigem;
-        this.idVerticeDestino = idVerticeDestino;
-    }
 }
