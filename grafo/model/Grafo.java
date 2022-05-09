@@ -21,9 +21,9 @@ public class Grafo {
 
     private double acharPeso(int um, int dois) {//Func que retorna o peso da aresta entre os nos
 
-        for(int i = 0; i<listaAresta.size();i++){
-            if((listaAresta.get(i).getIdVerticeOrigem() == um && listaAresta.get(i).getIdVerticeDestino() == dois) ||
-                    (listaAresta.get(i).getIdVerticeOrigem() == dois && listaAresta.get(i).getIdVerticeDestino() == um)){
+        for (int i = 0; i < listaAresta.size(); i++) {
+            if ((listaAresta.get(i).getIdVerticeOrigem() == um && listaAresta.get(i).getIdVerticeDestino() == dois) ||
+                    (listaAresta.get(i).getIdVerticeOrigem() == dois && listaAresta.get(i).getIdVerticeDestino() == um)) {
                 return listaAresta.get(i).getPeso();
             }
         }
@@ -34,8 +34,7 @@ public class Grafo {
         for (int i = 0; i < adj.size(); i++) {
             if (adj.get(i).size() == 0) {
                 System.out.println(listaVertice.get(i).getNome() + " não tem vizinhos.");
-            }
-            else {
+            } else {
                 for (int j = 0; j < adj.get(i).size(); j++) {
                     double p = acharPeso(listaVertice.get(i).getId(), adj.get(i).get(j).getId());
                     System.out.println("Vertice " + listaVertice.get(i).getNome() + " é vizinho de: " + adj.get(i).get(j).getNome());
@@ -116,43 +115,43 @@ public class Grafo {
             menorDistanciaPartida[i] = Double.MAX_VALUE;
         }
 
-        menorDistanciaPartida[verticePartida.getId()-1] = 0.0;
+        menorDistanciaPartida[verticePartida.getId() - 1] = 0.0;
         //Vetor onde cada posicao corresponde a um vertice e sua distancia ate
         //o ponto de partida
         filaDijkstra.add(verticePartida);
 
-        while(!filaDijkstra.isEmpty()){
+        while (!filaDijkstra.isEmpty()) {
 
             Vertice u = filaDijkstra.poll();
             visitados.add(u);
             double distanciaAtual, distanciaNova;
 
-            for(int i = 0; i < adj.get(u.getId()-1).size(); i++){
-                verticeAtual = adj.get(u.getId()-1).get(i);
+            for (int i = 0; i < adj.get(u.getId() - 1).size(); i++) {
+                verticeAtual = adj.get(u.getId() - 1).get(i);
 
-                if(!visitados.contains(verticeAtual)){//SE o atual nao esta na lista
+                if (!visitados.contains(verticeAtual)) {//SE o atual nao esta na lista
                     distanciaAtual = acharPeso(u.getId(), verticeAtual.getId());
-                    distanciaNova = menorDistanciaPartida[u.getId()-1] + distanciaAtual;
-                    if(distanciaNova < menorDistanciaPartida[verticeAtual.getId()-1]){
-                        menorDistanciaPartida[verticeAtual.getId()-1] = distanciaNova;
+                    distanciaNova = menorDistanciaPartida[u.getId() - 1] + distanciaAtual;
+                    if (distanciaNova < menorDistanciaPartida[verticeAtual.getId() - 1]) {
+                        menorDistanciaPartida[verticeAtual.getId() - 1] = distanciaNova;
                     }
                     filaDijkstra.add(verticeAtual);
                     verticeAtual.setAntecessor(u);
                 }
 
-                if(verticeAtual == verticeChegada){
+                if (verticeAtual == verticeChegada) {
                     System.out.println("ACHOU");
-                    System.out.println("DISTANCIA TOTAL: "+ menorDistanciaPartida[verticeAtual.getId()-1]);
+                    System.out.println("DISTANCIA TOTAL: " + menorDistanciaPartida[verticeAtual.getId() - 1]);
                     System.out.println("Caminho => \n");
-                    do{
+                    do {
                         printCaminho.push(verticeAtual);//Joga na pilha. No momento de desenpilhar, os vertices serao printados em ordem de movimentacao ate o destino
                         verticeAtual = verticeAtual.getAntecessor();
 
 
-                    }while (verticeAtual != null);
-                    while(!printCaminho.isEmpty()) {
+                    } while (verticeAtual != null);
+                    while (!printCaminho.isEmpty()) {
                         Vertice print = printCaminho.pop();
-                        System.out.println(print.getId()+"/"+print.getNome() + " => \n");
+                        System.out.println(print.getId() + "/" + print.getNome() + " => \n");
                     }
                     return;
                 }

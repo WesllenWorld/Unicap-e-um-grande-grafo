@@ -1,4 +1,5 @@
 package arquivos;
+
 import model.Aresta;
 import model.Vertice;
 
@@ -11,16 +12,15 @@ public class MontagemDoGrafo {
     File aArestas = new File("grafo/arquivos/arestas.txt");
     File aVertices = new File("grafo/arquivos/vertices.txt");
 
-    public void montarVertices(ArrayList<Vertice> lV){
+    public void montarVertices(ArrayList<Vertice> lV) {
         String n;
         int id;
-        try{
+        try {
             Scanner sc = new Scanner(aVertices);
             sc.nextLine();
 
 
-            while (sc.hasNext())
-            {
+            while (sc.hasNext()) {
                 String[] vertice = sc.nextLine().split(",");
                 id = Integer.parseInt(vertice[0]);
                 n = vertice[1];
@@ -30,21 +30,20 @@ public class MontagemDoGrafo {
             sc.close();
 
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void montarArestas(ArrayList<Aresta> lA){
+    public void montarArestas(ArrayList<Aresta> lA) {
         int id, origem, destino;
         double peso;
-        try{
+        try {
             Scanner sc = new Scanner(aArestas);
             sc.nextLine();
 
-            while (sc.hasNext())
-            {
+            while (sc.hasNext()) {
                 String[] aresta = sc.nextLine().split(",");
                 id = Integer.parseInt(aresta[0]);
                 origem = Integer.parseInt(aresta[1]);
@@ -56,31 +55,31 @@ public class MontagemDoGrafo {
             sc.close();
 
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void adjacencia(ArrayList<Vertice> lV, ArrayList<Aresta> lA, ArrayList<ArrayList<Vertice>> adj){
-        for(int i = 0; i < lV.size(); i++){
+    public void adjacencia(ArrayList<Vertice> lV, ArrayList<Aresta> lA, ArrayList<ArrayList<Vertice>> adj) {
+        for (int i = 0; i < lV.size(); i++) {
             ArrayList<Vertice> adjVertice = new ArrayList<>();
-            for(int j = 0; j<lA.size();j++){
+            for (int j = 0; j < lA.size(); j++) {
                 //SE -> o id está em um destino E não está na lista de adjacência atual = adiciona o vértice da origem OU
                 // id está na origem de vertice E não está na lista de adjacência atual = adiciona o vértice do destino
 
-                if(lV.get(i).getId() == lA.get(j).getIdVerticeOrigem() && !adjVertice.contains(lV.get(i))){
-                    adjVertice.add(lV.get(lA.get(j).getIdVerticeDestino()-1));
+                if (lV.get(i).getId() == lA.get(j).getIdVerticeOrigem() && !adjVertice.contains(lV.get(i))) {
+                    adjVertice.add(lV.get(lA.get(j).getIdVerticeDestino() - 1));
                 }
-                if(lV.get(i).getId() == lA.get(j).getIdVerticeDestino() && !adjVertice.contains(lV.get(i))){
-                    adjVertice.add(lV.get(lA.get(j).getIdVerticeOrigem()-1));
+                if (lV.get(i).getId() == lA.get(j).getIdVerticeDestino() && !adjVertice.contains(lV.get(i))) {
+                    adjVertice.add(lV.get(lA.get(j).getIdVerticeOrigem() - 1));
                 }
 
             }
             adj.add(i, adjVertice);
         }
         //ordenação dos adjacentes na lista, baseada no id do vértice
-        for(int i = 0; i<adj.size();i++) {
+        for (int i = 0; i < adj.size(); i++) {
             adj.get(i).sort(Comparator.comparing(Vertice::getId));
         }
     }
