@@ -13,17 +13,10 @@ public class Grafo {
 
     public void setup() {
         montagemDoGrafo.montarVertices(listaVertice);
-        for (int i = 0; i < listaVertice.size(); i++) {
-            System.out.println(listaVertice.get(i).getId() + " " + listaVertice.get(i).getNome());
-        }
+
         montagemDoGrafo.montarArestas(listaAresta);
-        for (int i = 0; i < listaAresta.size(); i++) {
-            System.out.println(listaAresta.get(i).getId() + " " + listaAresta.get(i).getIdVerticeOrigem() + " " +
-                    listaAresta.get(i).getIdVerticeDestino() + " " + listaAresta.get(i).getPeso());
-        }
+
         montagemDoGrafo.adjacencia(listaVertice, listaAresta, adj);
-
-
     }
 
     private double acharPeso(int um, int dois) {//Func que retorna o peso da aresta entre os nos
@@ -34,7 +27,7 @@ public class Grafo {
                 return listaAresta.get(i).getPeso();
             }
         }
-        return 0;
+        return 0; //Apenas para haver um retorno fora do if
     }
 
     private void imprimirAdj() {
@@ -76,15 +69,16 @@ public class Grafo {
         filaExtensao.add(verticePartida);
         while (!filaExtensao.isEmpty()) {
             verticeAtual = filaExtensao.poll();
+
             if (verticeAtual == verticeChegada) {//SE o vertice de chegada foi encontrado
                 System.out.println("ACHOU");
                 System.out.println("Distância total: " + verticeAtual.getExtensaoDistancia());
                 System.out.println("Caminho => \n");
-                while (verticeChegada.getAntecessor() != null) {
+                while (verticeChegada != null) {
                     printCaminho.push(verticeChegada); //Joga na pilha. No momento de desenpilhar, os vertices serao printados em ordem de movimentacao ate o destino
                     verticeChegada = verticeChegada.getAntecessor();
                 }
-                printCaminho.push(verticePartida); //Adicao do vertice de partida
+                //printCaminho.push(verticePartida); //Adicao do vertice de partida
                 for (int i = 0; i < verticeAtual.getExtensaoDistancia() + 1; i++) {
                     Vertice print = printCaminho.pop();
                     System.out.println(print.getId() + "/" + print.getNome() + " => \n");
@@ -92,7 +86,7 @@ public class Grafo {
                 return;
             }
 
-            for (Vertice v : adj.get(verticeAtual.getId() - 1)) {
+            for (Vertice v : adj.get(verticeAtual.getId() - 1)) {//olhando os vértices adjacentes do vértice atual
                 if (v.getCor().equals("Branco")) {
                     v.setCor("Cinza");
                     v.setExtensaoDistancia(verticeAtual.getExtensaoDistancia() + 1);
@@ -108,7 +102,7 @@ public class Grafo {
         Vertice verticePartida = listaVertice.get(pId - 1);
         Vertice verticeChegada = listaVertice.get(cId - 1);
         Vertice verticeAtual;
-        Set<Vertice> visitados = new HashSet<>();
+        Set<Vertice> visitados = new HashSet<>();//para nao repetir os nos
         Stack<Vertice> printCaminho = new Stack<>();
 
         Queue<Vertice> filaDijkstra = new LinkedList<>();
@@ -123,6 +117,8 @@ public class Grafo {
         }
 
         menorDistanciaPartida[verticePartida.getId()-1] = 0.0;
+        //Vetor onde cada posicao corresponde a um vertice e sua distancia ate
+        //o ponto de partida
         filaDijkstra.add(verticePartida);
 
         while(!filaDijkstra.isEmpty()){
@@ -134,7 +130,7 @@ public class Grafo {
             for(int i = 0; i < adj.get(u.getId()-1).size(); i++){
                 verticeAtual = adj.get(u.getId()-1).get(i);
 
-                if(!visitados.contains(verticeAtual)){
+                if(!visitados.contains(verticeAtual)){//SE o atual nao esta na lista
                     distanciaAtual = acharPeso(u.getId(), verticeAtual.getId());
                     distanciaNova = menorDistanciaPartida[u.getId()-1] + distanciaAtual;
                     if(distanciaNova < menorDistanciaPartida[verticeAtual.getId()-1]){
@@ -151,6 +147,7 @@ public class Grafo {
                     do{
                         printCaminho.push(verticeAtual);//Joga na pilha. No momento de desenpilhar, os vertices serao printados em ordem de movimentacao ate o destino
                         verticeAtual = verticeAtual.getAntecessor();
+
 
                     }while (verticeAtual != null);
                     while(!printCaminho.isEmpty()) {
