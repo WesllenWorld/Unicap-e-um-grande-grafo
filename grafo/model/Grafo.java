@@ -43,8 +43,6 @@ public class Grafo {
             }
             System.out.println();
         }
-
-
     }
 
     private void buscaExtensao(int pId, int cId) {
@@ -144,7 +142,7 @@ public class Grafo {
                     System.out.println("DISTANCIA TOTAL: " + menorDistanciaPartida[verticeAtual.getId() - 1]);
                     System.out.println("Caminho => \n");
                     do {
-                        printCaminho.push(verticeAtual);//Joga na pilha. No momento de desenpilhar, os vertices serao printados em ordem de movimentacao ate o destino
+                        printCaminho.push(verticeAtual);//Joga na pilha.
                         verticeAtual = verticeAtual.getAntecessor();
 
 

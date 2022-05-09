@@ -24,7 +24,7 @@
 23, "ande mais"
 24, "perto do posto medico"
 25, "frente do posto medico"
-26, "entrada bloco a rua visao dele"
+26, "entrada bloco a pelo estacionamento"
 27, "centro bloco a"
 28, "escada elevadores bloco a"
 29, "lanchonete"
